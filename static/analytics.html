@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI Emotion & Sentiment Analytics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<main>
+    <div class="nav-header">
+        <h1>AI Analytics</h1>
+        <button id="sidebar-toggle" class="profile-icon-btn" type="button" title="Open Menu">
+            ⚙️
+        </button>
+    </div>
+    
+    <p style="color: var(--text-secondary); margin-bottom: 20px;">
+        Detailed breakdown of voice tone, textual emotion, and sentiment scoring from your translation session.
+    </p>
+
+    <h2>Voice Emotion Analysis</h2>
+    <ul id="voice"></ul>
+    
+    <h2>Text Emotion Analysis</h2>
+    <ul id="emotion"></ul>
+    
+    <h2>Sentiment Breakdown</h2>
+    <ul id="sentiment"></ul>
+    
+    <p id="warnings" class="warn"></p>
+
+    <div style="margin-top: 35px; text-align: left;">
+        <a href="/translator" style="color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.95rem;">
+            ← Back to Translator Workspace
+        </a>
+    </div>
+</main>
+
+<!-- SLIDING SIDEBAR DRAWER & OVERLAY -->
+<div id="sidebar-overlay" class="sidebar-overlay"></div>
+<div id="sidebar-drawer" class="sidebar-drawer">
+    <div class="sidebar-header">
+        <h3 style="margin:0; font-size: 1.1rem;">Menu & Settings</h3>
+        <button id="close-sidebar" class="close-sidebar">✕</button>
+    </div>
+    <ul class="sidebar-menu">
+        <li><a href="/translator">🏠 Translator Workspace</a></li>
+        <li><a href="/analytics">📊 Deep Analytics</a></li>
+        <li><button id="profile-btn" type="button">👤 Profile Info</button></li>
+        <li><button id="history-btn" type="button">📂 Translation History</button></li>
+        <li><button id="theme-toggle" type="button">☀️ Toggle Light / Dark</button></li>
+        <li style="margin-top: auto;"><button id="logout-btn" type="button" style="background: var(--danger);">🚪 Logout</button></li>
+    </ul>
+</div>
+
+<script>
+    // Load stored analytics data into lists
+    const savedData = JSON.parse(localStorage.getItem("lastAnalysis") || "{}");
+    
+    function populateList(elementId, items) {
+        const el = document.getElementById(elementId);
+        if (!el) return;
+        el.replaceChildren(...(items || [{ label: "n/a", score: 0 }]).map((s) => {
+            const li = document.createElement("li");
+            li.textContent = `${s.label}: ${(s.score * 100).toFixed(1)}%`;
+            return li;
+        }));
+    }
+
+    populateList("voice", savedData.voice_emotion);
+    populateList("emotion", savedData.text_emotion);
+    populateList("sentiment", savedData.sentiment);
+    if (savedData.warnings) {
+        document.getElementById("warnings").textContent = savedData.warnings.join(" ");
+    }
+
+    // Sidebar Sliding Logic
+    const toggleBtn = document.getElementById("sidebar-toggle");
+    const closeBtn = document.getElementById("close-sidebar");
+    const overlay = document.getElementById("sidebar-overlay");
+    const drawer = document.getElementById("sidebar-drawer");
+
+    function openSidebar() {
+        overlay.classList.add("active");
+        drawer.classList.add("active");
+    }
+    function closeSidebar() {
+        overlay.classList.remove("active");
+        drawer.classList.remove("active");
+    }
+
+    toggleBtn.addEventListener("click", openSidebar);
+    closeBtn.addEventListener("click", closeSidebar);
+    overlay.addEventListener("click", closeSidebar);
+
+    // Theme Toggle Logic
+    const themeBtn = document.getElementById("theme-toggle");
+    if (localStorage.getItem("theme") === "light") {
+        document.body.classList.add("light-theme");
+        themeBtn.textContent = "🌙 Switch to Dark Mode";
+    }
+
+    themeBtn.addEventListener("click", () => {
+        document.body.classList.toggle("light-theme");
+        const isLight = document.body.classList.contains("light-theme");
+        localStorage.setItem("theme", isLight ? "light" : "dark");
+        themeBtn.textContent = isLight ? "🌙 Switch to Dark Mode" : "☀️ Toggle Light / Dark";
+    });
+
+    document.getElementById("profile-btn").addEventListener("click", () => {
+        const email = localStorage.getItem("userEmail") || "Logged in via Phone";
+        alert(`Current User Profile:\nIdentifier: ${email}`);
+    });
+    document.getElementById("history-btn").addEventListener("click", () => {
+        alert("Translation history loaded from current session.");
+    });
+    document.getElementById("logout-btn").addEventListener("click", () => {
+        localStorage.removeItem("isLoggedIn");
+        window.location.href = "/";
+    });
+</script>
+</body>
+</html>

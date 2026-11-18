@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Voice Translator Workspace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<main>
+    <div class="nav-header">
+        <h1>Voice Translator</h1>
+        <!-- Logo / Profile Trigger Button -->
+        <button id="sidebar-toggle" class="profile-icon-btn" type="button" title="Open Menu">
+            ⚙️
+        </button>
+    </div>
+    
+    <label>Translate to</label>
+    <select id="lang"></select>
+
+    <label>Audio file</label>
+    <input id="file" type="file" accept="audio/*,video/mp4,video/webm">
+    
+    <div class="row">
+        <button id="rec" type="button">🎙️ Record</button>
+        <button id="go" type="button">Analyze</button>
+        <span id="status"></span>
+    </div>
+
+    <audio id="player" controls hidden></audio>
+    
+    <section id="out" hidden>
+        <h2>Transcript <small id="detected"></small></h2>
+        <p id="transcript"></p>
+        
+        <h2>Translation</h2>
+        <p id="translation">-</p>
+        
+        <div style="margin-top: 15px; margin-bottom: 20px;">
+            <button id="speak-btn" type="button">🔊 Listen Aloud</button>
+            <button id="replay-btn" type="button" style="margin-left: 10px;">🔄 Replay Audio</button>
+        </div>
+
+        <div style="margin-top: 30px; text-align: center;">
+            <a href="/analytics" style="color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.95rem;">
+                View Deep Emotion & Sentiment Analytics ➔
+            </a>
+        </div>
+    </section>
+</main>
+
+<!-- SLIDING SIDEBAR DRAWER & OVERLAY -->
+<div id="sidebar-overlay" class="sidebar-overlay"></div>
+<div id="sidebar-drawer" class="sidebar-drawer">
+    <div class="sidebar-header">
+        <h3 style="margin:0; font-size: 1.1rem;">Menu & Settings</h3>
+        <button id="close-sidebar" class="close-sidebar">✕</button>
+    </div>
+    <ul class="sidebar-menu">
+        <li><a href="/translator">🏠 Translator Workspace</a></li>
+        <li><a href="/analytics">📊 Deep Analytics</a></li>
+        <li><button id="profile-btn" type="button">👤 Profile Info</button></li>
+        <li><button id="history-btn" type="button">📂 Translation History</button></li>
+        <li><button id="theme-toggle" type="button">☀️ Toggle Light / Dark</button></li>
+        <li style="margin-top: auto;"><button id="logout-btn" type="button" style="background: var(--danger);">🚪 Logout</button></li>
+    </ul>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

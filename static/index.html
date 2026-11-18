@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Voice Translator - Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- Google Identity Services SDK -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body class="login-body">
+<main class="login-card">
+    <h1>Voice Translator & Emotion AI</h1>
+    <p class="login-subtitle">
+        Secure AI-powered translation & sentiment workspace. Please sign in to continue.
+    </p>
+    
+    <!-- Dynamic Google Sign-In Button Container -->
+    <div id="google-login-container" style="margin-bottom: 15px; display: flex; justify-content: center; width: 100%;"></div>
+
+    <div class="divider">OR</div>
+
+    <!-- Phone Number Login Form -->
+    <form id="phone-login-form">
+        <label>Phone Number</label>
+        <div class="phone-row">
+            <input type="tel" id="phone-number" placeholder="Enter 10-digit mobile number" pattern="[0-9]{10}" required>
+            <button type="submit">Get OTP</button>
+        </div>
+    </form>
+</main>
+
+<script src="/static/auth.js"></script>
+</body>
+</html>
